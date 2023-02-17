@@ -1,75 +1,98 @@
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
+import { LitElement, html, css } from "lit";
 
-import {LitElement, html, css} from 'lit';
+class App extends LitElement {
+    static properties = {
+        value: {type: String},
+        hobbies: {type: Array},
+    };
 
-/**
- * An example element.
- *
- * @fires count-changed - Indicates when the count changes
- * @slot - This element has a slot
- * @csspart button - The button
- */
-export class MyElement extends LitElement {
-  static get styles() {
-    return css`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
+    static styles = css`
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif;
+      }
+
+      .container {
+        background-color: #f0f0f0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .main {
+        width: 50%;
+      }
+
+      .input-container {
+        display: flex;
+      }
+
+      ul {
+        list-style: none;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: green;
+        text-align: left;
+        width: 100%;
+        font-size: 17px;
+      }
+
+      h4 {
+        text-align: center;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
       }
     `;
-  }
 
-  static get properties() {
-    return {
-      /**
-       * The name to say "Hello" to.
-       * @type {string}
-       */
-      name: {type: String},
+    constructor() {
+        super();
+        this.value = "";
+        this.hobbies = [
+            {text: "Reading"},
+            {text: "Eating"},
+            {text: "Cooking"},
+        ];
+    }
 
-      /**
-       * The number of times the button has been clicked.
-       * @type {number}
-       */
-      count: {type: Number},
-    };
-  }
+    addHobbie() {
+        const hobby = this.value;
+        this.hobbies.push({
+            text: hobby,
+            completed: false,
+        });
+        this.value = "";
+        this.requestUpdate();
+    }
 
-  constructor() {
-    super();
-    this.name = 'World';
-    this.count = 0;
-  }
-
-  render() {
-    return html`
-      <h1>${this.sayHello(this.name)}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
-      <slot></slot>
-    `;
-  }
-
-  _onClick() {
-    this.count++;
-    this.dispatchEvent(new CustomEvent('count-changed'));
-  }
-
-  /**
-   * Formats a greeting
-   * @param name {string} The name to say "Hello" to
-   * @returns {string} A greeting directed at `name`
-   */
-  sayHello(name) {
-    return `Hello, ${name}`;
-  }
+    render() {
+        return html`
+            <div class="container">
+                <div class="main">
+                    <h4>Daily Hobby</h4>
+                    <ul>
+                        ${this.hobbies.map((item) => html`
+                            <li>${item.text}</li>`)}
+                    </ul>
+                    <div class="input-container">
+                        <input
+                                type="text"
+                                placeholder="Add a hobbie"
+                                .value=${this.value}
+                                @input=${(e) => (this.value = e.target.value)}
+                        />
+                        <button @click=${this.addHobbie}>Add Hubbie</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
 }
 
-window.customElements.define('my-element', MyElement);
+customElements.define("my-element", App);
