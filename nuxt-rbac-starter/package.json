@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-rbac-starter",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A lightweight Nuxt 3 RBAC starter (roles + permissions) with wildcard support, route middleware, and a v-can directive.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "generate": "nuxt generate",
+    "typecheck": "nuxi typecheck"
+  },
+  "dependencies": {
+    "nuxt": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vue-tsc": "^2.0.0"
+  }
+}
